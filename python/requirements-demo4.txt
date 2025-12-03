@@ -1,0 +1,10 @@
+# Demo 4 requirements
+# NOTE: The Rust-backed py_nsi wheel must be built locally via maturin before running Demo 4:
+#   cd py_nsi && maturin develop --release
+torch>=2.1
+transformers>=4.40
+numpy
+matplotlib
+pyyaml
+tqdm
+scikit-learn

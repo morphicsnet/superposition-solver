@@ -1,0 +1,33 @@
+# Environments
+.venv/
+.env
+
+# Caches and Python artifacts
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.hypothesis/
+.pyre/
+.pytype/
+*.pyc
+*.pyo
+*.pyd
+*.py[cod]
+
+# Notebooks
+.ipynb_checkpoints/
+
+# OS/editor
+.DS_Store
+.vscode/
+.idea/
+
+# Packaging / build
+build/
+dist/
+.eggs/
+*.egg-info/
+wheels/
+
+# Project artifacts
+outputs/

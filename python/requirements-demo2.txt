@@ -1,0 +1,9 @@
+# Demo 2 Python dependencies (install via pip). Note: build the local Rust-backed py_nsi wheel with maturin before running.
+# From repo root: cd py_nsi && maturin develop --release  # or: maturin build && pip install target/wheels/py_nsi-*.whl
+torch>=2.1
+transformers>=4.40
+numpy
+matplotlib
+pyyaml
+tqdm
+scikit-learn

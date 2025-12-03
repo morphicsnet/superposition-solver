@@ -1,0 +1,24 @@
+# Demo 3 spike hypergraph config
+model_name: "sshleifer/tiny-gpt2"
+layer_index: 0
+dataset:
+  n_per_class: 400
+  seed: 1337
+  concepts: ["river_bank", "finance_bank"]
+ensemble:
+  feature_dim: 1024
+  top_k: 16
+  seeds: [11, 23, 37]
+spike:
+  t_start: 0.0
+  delta_t: 1.0
+  min_sigmoid: 0.01
+  gse_window: 0.05
+metrics:
+  eps: 0.05
+  hist_bins: 30
+  active_threshold_intersection: 0.5
+  active_threshold_hyperedge: 0.5
+outputs:
+  base_dir: "outputs/spike_hypergraph"
+  run_tag: null

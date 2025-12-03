@@ -1,0 +1,25 @@
+# Demo 5 Investor Dashboard configuration
+runs:
+  baseline_dir: 'outputs/baseline'
+  ensemble_dir: 'outputs/ensemble'
+  spike_hypergraph_dir: 'outputs/spike_hypergraph'
+  causal_dir: 'outputs/causal'
+
+selection:
+  mode: 'latest'  # 'latest' or 'manual'
+  manual_paths:
+    baseline: null
+    ensemble: null
+    spike_hypergraph: null
+    causal: null
+
+plots:
+  hist_bins: 30
+  top_k_stii: 20
+  top_k_gender_nodes: 10
+
+toggles:
+  show_baseline: true
+  show_ensemble: true
+  show_hypergraph: true
+  show_causal: true

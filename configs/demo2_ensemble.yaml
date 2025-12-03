@@ -1,0 +1,26 @@
+# Demo 2 ensemble config
+model_name: "sshleifer/tiny-gpt2"
+layer_index: 0
+dataset:
+  n_per_class: 300
+  seed: 1337
+  concepts: ["river_bank", "finance_bank"]
+sae_single:
+  hidden_dim: 1024
+  top_k: 16
+  epochs: 5
+  lr: 1e-3
+  l1_lambda: 1e-4
+  seed: 42
+  active_threshold: 0.1
+ensemble:
+  feature_dim: 1024
+  top_k: 16
+  seeds: [11, 23, 37]    # three encoders
+  intersect_threshold: 0.1
+metrics:
+  eps: 0.05
+  hist_bins: 30
+outputs:
+  base_dir: "outputs/ensemble"
+  run_tag: null

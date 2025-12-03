@@ -1,0 +1,21 @@
+# Demo 1 baseline config
+model_name: "sshleifer/tiny-gpt2"
+layer_index: 0
+dataset:
+  n_per_class: 200
+  seed: 1337
+  concepts: ["river_bank", "finance_bank"]
+sae:
+  hidden_dim: 1024
+  top_k: 16
+  epochs: 5
+  lr: 1e-3
+  l1_lambda: 1e-4
+  seed: 42
+  active_threshold: 0.1
+metrics:
+  eps: 0.05
+  hist_bins: 30
+outputs:
+  base_dir: "outputs/baseline"
+  run_tag: null  # optional override; else timestamped
