@@ -42,12 +42,12 @@ A technically literate investor’s pain today: models remain opaque, safety cla
 - Metrics
   - Definition completeness: all formulas and reporting schemas specified.
   - Target stability: bootstrap CI width for key metrics <= 10% of median.
-- Artifacts
-  - [outputs/](outputs/)/<run_stamp>/metrics_spec.json
-  - [outputs/](outputs/)/<run_stamp>/locked_acceptance.yaml
+- Artifacts (manual, if recorded)
+  - `outputs/baseline/<run_tag>/metrics_spec.json`
+  - `outputs/baseline/<run_tag>/locked_acceptance.yaml`
 - Acceptance Criteria
   - [ ] All metric definitions present in [METRICS.md](METRICS.md), including monosemantic rate and STII reporting.
-  - [ ] Locked thresholds serialized to outputs/<run_stamp>/locked_acceptance.yaml with seed, git hash recorded.
+  - [ ] Locked thresholds serialized to `outputs/baseline/<run_tag>/locked_acceptance.yaml` if tracked.
 
 ## Demo 1 — Baseline SAE Polysemanticity
 
@@ -64,9 +64,9 @@ A technically literate investor’s pain today: models remain opaque, safety cla
   - Median polysemanticity ≥ baseline B0; monosemantic % ≤ M0 (expect low).
   - Task accuracy delta vs. raw model ≤ 0.5% absolute.
 - Artifacts
-  - [outputs/](outputs/)/<run_stamp>/plots/poly_hist_sae.png
-  - [outputs/](outputs/)/<run_stamp>/metrics/sae_poly.json
-  - [outputs/](outputs/)/<run_stamp>/logs/seed_and_git.txt
+  - `outputs/baseline/<run_tag>/poly_hist.png`
+  - `outputs/baseline/<run_tag>/metrics.json`
+  - `outputs/baseline/<run_tag>/config.yaml`
 - Acceptance Criteria
   - [ ] Polysemanticity histogram and JSON exist with seeds and git hash.
   - [ ] Accuracy delta ≤ 0.5% vs. raw baseline.
@@ -86,11 +86,15 @@ A technically literate investor’s pain today: models remain opaque, safety cla
   - Monosemantic rate increases ≥ 15% absolute.
   - Task accuracy delta ≤ 0.5% absolute vs. Demo 1.
 - Artifacts
-  - [outputs/](outputs/)/<run_stamp>/plots/poly_hist_intersection.png
-  - [outputs/](outputs/)/<run_stamp>/metrics/ensemble_intersection.json
-  - [outputs/](outputs/)/<run_stamp>/configs/ensemble.yaml (frozen)
+  - `outputs/ensemble/<run_tag>/poly_hist_single.png`
+  - `outputs/ensemble/<run_tag>/poly_hist_intersection.png`
+  - `outputs/ensemble/<run_tag>/poly_hist_dual.png`
+  - `outputs/ensemble/<run_tag>/metrics_single.json`
+  - `outputs/ensemble/<run_tag>/metrics_intersection.json`
+  - `outputs/ensemble/<run_tag>/compare.json`
+  - `outputs/ensemble/<run_tag>/config.yaml`
 - Acceptance Criteria
-  - [ ] Intersection method and threshold recorded in configs/ensemble.yaml.
+  - [ ] Intersection method and threshold recorded in `outputs/ensemble/<run_tag>/config.yaml`.
   - [ ] Polysemanticity and monosemantic improvements meet targets with accuracy delta ≤ 0.5%.
 
 ## Demo 3 — Spike Encoding, GSE, and Hypergraph (HIF Export)
@@ -108,9 +112,11 @@ A technically literate investor’s pain today: models remain opaque, safety cla
   - Cross-ensemble coincidence ratio ≥ 90% of retained islands (enforces diversity).
   - HIF export deterministic under fixed seeds (byte-identical).
 - Artifacts
-  - [outputs/](outputs/)/<run_stamp>/hif/hypergraph.json
-  - [outputs/](outputs/)/<run_stamp>/plots/island_size_cdf.png
-  - [outputs/](outputs/)/<run_stamp>/configs/spike.yaml
+  - `outputs/spike_hypergraph/<run_tag>/hypergraph.hif.json`
+  - `outputs/spike_hypergraph/<run_tag>/metrics_hyperedges.json`
+  - `outputs/spike_hypergraph/<run_tag>/poly_hist_hyperedges.png`
+  - `outputs/spike_hypergraph/<run_tag>/edge_keys.json`
+  - `outputs/spike_hypergraph/<run_tag>/config.yaml`
 - Acceptance Criteria
   - [ ] HIF JSON valid and loadable by HyperNetX/Cytoscape.
   - [ ] Deterministic export verified across two seeded runs (diff == empty).
@@ -130,10 +136,11 @@ A technically literate investor’s pain today: models remain opaque, safety cla
   - For fairness: if biased, protected-attribute hyperedges present in minimal circuit with nonzero STII; if not, absent with CI including zero.
   - For hallucination: high-STII hyperpath density between context and answer increases in grounded cases; drops in confabulations.
 - Artifacts
-  - [outputs/](outputs/)/<run_stamp>/metrics/stii_edges.json
-  - [outputs/](outputs/)/<run_stamp>/circuits/minimal_circuits.json
-  - [outputs/](outputs/)/<run_stamp>/plots/stii_rank_curves.png
-  - [outputs/](outputs/)/<run_stamp>/configs/stii.yaml
+  - `outputs/causal/<run_tag>/stii_values.json`
+  - `outputs/causal/<run_tag>/acdc_minimal_circuit.json`
+  - `outputs/causal/<run_tag>/fairness_report.json`
+  - `outputs/causal/<run_tag>/hypergraph_stii.hif.json`
+  - `outputs/causal/<run_tag>/config.yaml`
 - Acceptance Criteria
   - [ ] Minimal circuits serialized and reproducible (seed-stable).
   - [ ] At least one fairness or hallucination case yields a causal verdict aligned with labels.
@@ -152,8 +159,9 @@ A technically literate investor’s pain today: models remain opaque, safety cla
   - Dashboard completeness: all prior artifacts linked and rendered.
   - Latency: dashboard run < 30s on laptop without GPU.
 - Artifacts
-  - [outputs/](outputs/)/<run_stamp>/reports/investor_dashboard.html
-  - [outputs/](outputs/)/<run_stamp>/reports/assets/*
+  - `outputs/investor/<run_tag>/dashboard_metrics.json`
+  - `outputs/investor/<run_tag>/dashboard_summary.md`
+  - `outputs/investor/<run_tag>/*.png` (figures referenced by the summary)
 - Acceptance Criteria
   - [ ] Dashboard file renders locally with working links to all prior artifacts.
   - [ ] “Green” badges for monosemantic improvement, HIF determinism, and at least one causal verification success.

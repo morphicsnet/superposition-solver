@@ -7,4 +7,4 @@
 - [x] Demo 5: Investor dashboard (metrics, topology, safety)
 - [x] Reproducibility: configs, seeds, versioning, artifact packaging
 
-Last updated: 2025-12-02
+Last updated: 2026-03-08

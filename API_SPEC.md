@@ -1,163 +1,110 @@
-# API Spec: Python-Facing Interfaces and Data Contracts
+# API Spec: Python Bindings and Data Contracts
 
-This specification defines the Python APIs exposed via pyo3 bindings in [py_nsi/src/lib.rs](py_nsi/src/lib.rs). Each method maps directly to Rust implementations in [nsi_core/](nsi_core/) and emits deterministic, versioned artifacts as defined in [REPRODUCIBILITY.md](REPRODUCIBILITY.md). Where applicable, we reference constructs like [pub struct Ensemble<E: Encoder>](nsi_core/src/ensemble.rs:1), [pub trait Encoder](nsi_core/src/ensemble.rs:1), [pub struct SimpleSaeEncoder](nsi_core/src/ensemble.rs:1), [pub fn activation_to_spike_time](nsi_core/src/encoding.rs:1), [pub struct Gse](nsi_core/src/hypergraph.rs:1), [pub struct HypergraphStore](nsi_core/src/hypergraph.rs:1), [pub fn add_island](nsi_core/src/hypergraph.rs:1), [pub fn export_hif](nsi_core/src/hypergraph.rs:1), and [impl HypergraphStore { pub fn compute_stii }](nsi_core/src/metrics.rs:1).
+This document specifies the Python APIs exposed by `py_nsi` (pyo3 bindings) and their direct Rust counterparts in `nsi_core`. The bindings are intentionally minimal and deterministic; higher-level orchestration lives in `python/`.
 
 ## Conventions
-
 - Module name: `py_nsi`
-- Types use Python-native containers for portability; numpy arrays are accepted for numeric tensors.
-- All time/threshold parameters are floats; seeds and IDs are integers.
-- Determinism requires fixed seeds and frozen configs under [configs/](configs/).
+- Data shapes use Python-native containers for portability (lists and dicts)
+- All numeric inputs are castable to `float`/`int` in Python and to `f32`/`u64` in Rust
+- Determinism requires fixed seeds for encoder construction
 
 ## Core Types
 
-- Spike (Python)
-  - Tuple layout: `(ensemble_id: int, neuron_id: int, t: float)`
-  - Matches [#[derive(Clone, Debug)] pub struct Spike](nsi_core/src/encoding.rs:1)
-  - Created by the SpikeEncoder or directly constructed by advanced users.
+### PySimpleSaeEncoder
+- Rust: `nsi_core::SimpleSaeEncoder`
+- Constructor:
+  - `PySimpleSaeEncoder(in_dim: int, out_dim: int, top_k: int, seed: int)`
+- Purpose: deterministic SAE-like encoder with top-k sparsity
 
-- HyperedgeKey (Python)
-  - String key using canonical, sorted incidences (e.g., `E0:N12|E2:N7->OUT:tok_42`)
-  - Mirrors [#[derive(Clone, Debug, Hash, Eq, PartialEq)] pub struct HyperedgeKey](nsi_core/src/hypergraph.rs:1)
-  - Returned by helpers when available; otherwise pass the canonical key string.
+### PyEnsemble
+- Rust: `nsi_core::Ensemble<SimpleSaeEncoder>`
+- Constructor:
+  - `PyEnsemble(encoders: list[PySimpleSaeEncoder])`
+- Methods:
+  - `encode_all(activations: list[float]) -> list[list[float]]`
+    - Input: a single activation vector (no batch)
+    - Output: list of per-encoder outputs
+  - `intersect(outputs: list[list[float]], threshold: float) -> list[bool]`
+    - Computes a feature-wise intersection mask across encoder outputs
 
-## Classes and Methods
+### PySpike
+- Rust: `nsi_core::Spike`
+- Fields (get/set):
+  - `ensemble_id: int` (u16)
+  - `neuron_id: int` (u32)
+  - `t: float`
+- Methods:
+  - `node_id() -> int` (u64, encodes ensemble and neuron ids)
 
-### EnsembleEncoder (wraps [#[pyclass] struct PyEnsemble](py_nsi/src/lib.rs:1))
+### PyGse
+- Rust: `nsi_core::Gse`
+- Constructor:
+  - `PyGse(window: float)`
+- Methods:
+  - `ingest(spike: PySpike) -> list[list[PySpike]]`
+    - Returns zero or more temporal coincidence islands
 
-- Purpose
-  - Manage an ensemble of encoders implemented as [pub struct Ensemble<E: Encoder>](nsi_core/src/ensemble.rs:1) with E = [pub struct SimpleSaeEncoder](nsi_core/src/ensemble.rs:1).
-- Methods
-  - from_config(path: str) -> EnsembleEncoder
-    - Loads [configs/ensemble.yaml](configs/ensemble.yaml); constructs K encoders with seeds and sparsity settings.
-    - Errors: FileNotFoundError, ValueError (invalid schema), ValueError (seeds length < ensemble_size).
-  - encode_all(activations: np.ndarray) -> list[list[float]]
-    - Inputs: `activations` shape [F] or [B, F], dtype float32/float64.
-    - Output: for [F], returns list-of-list per encoder (K x F’ after sparsity); for [B, F], returns list (batch) of K x F’ lists.
-    - Maps to [pub fn encode_all](nsi_core/src/ensemble.rs:1).
-  - intersect(outputs: list[list[float]], threshold: float) -> list[bool]
-    - Compute boolean mask for features active under ensemble agreement.
-    - threshold ∈ (0,1]; config default in [configs/ensemble.yaml](configs/ensemble.yaml).
-    - Maps to [pub fn intersect_features](nsi_core/src/ensemble.rs:1).
-- Notes
-  - Encoders are deterministic given seeds; ensure seeds are recorded (see [REPRODUCIBILITY.md](REPRODUCIBILITY.md)).
+### PyHypergraphStore
+- Rust: `nsi_core::HypergraphStore`
+- Constructor:
+  - `PyHypergraphStore()`
+- Methods:
+  - `add_island(island: list[PySpike]) -> None`
+  - `edges() -> list[dict]`
+    - Dict shape: `{ "key": [u64, ...], "observation_count": int, "stii_weight": float }`
+  - `compute_stii(node_ids: list[int], deltas: list[tuple[int, float]]) -> float`
+    - `node_ids` are canonicalized (sorted, deduped)
+    - `deltas` are `(subset_size, delta_value)` pairs
+  - `export_hif(path: str) -> None`
+    - Writes a minimal HIF JSON (see below)
 
-### SpikeEncoder
+## Minimal HIF Export Shape
+The Rust exporter in `nsi_core/src/hypergraph.rs` writes a minimal, deterministic JSON structure:
 
-- Purpose
-  - Convert dense activations into spike events using latency–phase coding.
-- Methods
-  - from_config(path: str) -> SpikeEncoder
-    - Loads [configs/spike.yaml](configs/spike.yaml).
-  - encode_batch(activations: np.ndarray, meta: dict) -> list[Spike]
-    - Inputs: `activations` shape [F] or [B, F], dtype float32/float64.
-    - For each activation x, compute spike time via [pub fn activation_to_spike_time](nsi_core/src/encoding.rs:1) with `(t_start, delta_t)` and drop if sigmoid(x) < `min_sigmoid`.
-    - Output: list of [Spike](nsi_core/src/encoding.rs:1) tuples `(ensemble_id, neuron_id, t)`.
-    - `meta` may include `ensemble_id` (int) to annotate spikes when processing per-encoder.
-- Notes
-  - Use the same seeds/ordering as EnsembleEncoder to keep neuron_id alignment stable.
-
-### GraphStreamingEngine (wraps [#[pyclass] struct PyGse](py_nsi/src/lib.rs:1))
-
-- Purpose
-  - Detect temporal coincidences across ensembles using a sliding window (GSE).
-- Constructor
-  - GraphStreamingEngine(window: float, cross_ensemble_required: bool = True)
-    - `window` maps to [impl Gse { pub fn new }](nsi_core/src/hypergraph.rs:1).
-- Methods
-  - ingest(spike: Spike) -> list[list[Spike]]
-    - Add a spike, return zero or more candidate “islands” (each island is a list of Spike) that meet coincidence criteria.
-    - Maps to [pub fn ingest](nsi_core/src/hypergraph.rs:1).
-- Notes
-  - Enforce cross-ensemble coincidence if `cross_ensemble_required=True`; must match [configs/spike.yaml](configs/spike.yaml).
-
-### HypergraphStore (wraps [#[pyclass] struct PyHypergraphStore](py_nsi/src/lib.rs:1))
-
-- Purpose
-  - Persist islands as hyperedges, iterate edges, compute STII, and export HIF.
-- Methods
-  - add_island(island: list[Spike]) -> None
-    - Canonicalizes spikes and inserts/updates a hyperedge.
-    - Maps to [pub fn add_island](nsi_core/src/hypergraph.rs:1).
-  - edges() -> Iterable[dict]
-    - Yields edge dictionaries with fields: `key: str`, `nodes: list[str]`, `order: int`, `count: int`, optionally `stii: float`.
-    - Backed by [pub struct Hyperedge](nsi_core/src/hypergraph.rs:1).
-  - export_hif(path: str) -> None
-    - Serialize HIF JSON with deterministic ordering.
-    - Maps to [pub fn export_hif](nsi_core/src/hypergraph.rs:1).
-  - compute_stii(key: str, deltas: list[tuple[int, float]]) -> dict
-    - `key` is the canonical HyperedgeKey string; `deltas` are `(mask_id, delta_metric)` pairs defined by the notebook caller.
-    - Returns a dict with STII summary (value, ci, samples).
-    - Maps to [impl HypergraphStore { pub fn compute_stii }](nsi_core/src/metrics.rs:1).
-
-## Shapes and dtypes (per method)
-
-- [PyEnsemble.encode_all](py_nsi/src/lib.rs:1)
-  - Input: activations [F] or [B,F], float32/float64
-  - Output: list[list[float]] shaped as K×F′ (or batch list of K×F′)
-- [PyEnsemble.intersect](py_nsi/src/lib.rs:1)
-  - Input: outputs: list[list[float]] (K×F′), threshold: float∈(0,1]
-  - Output: list[bool] mask of length F′
-- [PyGse.ingest](py_nsi/src/lib.rs:1)
-  - Input: Spike tuple (ensemble_id:int, neuron_id:int, t:float)
-  - Output: list[island] where island = list[Spike]
-- [PyHypergraphStore.export_hif](py_nsi/src/lib.rs:1)
-  - Input: path: str
-  - Output: None (writes deterministic JSON)
-- STII call-through → [impl HypergraphStore { pub fn compute_stii }](nsi_core/src/metrics.rs:1)
-  - Input: key: str, deltas: list[tuple[int,float]]
-  - Output: dict {value: float, ci: [lo, hi], samples: int}
-
-## Data Shapes, DTypes, and Thresholds
-
-- Activations
-  - Shape: [F] or [B, F]; dtype: float32 preferred (float64 accepted).
-  - Values should be pre-activation or chosen layer outputs per [configs/ensemble.yaml](configs/ensemble.yaml). Document the layer in artifacts.
-- Ensemble intersection
-  - `threshold` ∈ (0, 1]; default 0.5. Must be recorded.
-- Spike encoding
-  - `t_start` (float), `delta_t` (float), `min_sigmoid` (float ∈ [0,1)), `gse_window` (float), `cross_ensemble_required` (bool True).
-- STII
-  - [configs/stii.yaml](configs/stii.yaml): `max_order_k ∈ {2,3}`, `subset_sampling.enabled`, `per_edge_samples ≥ 16`, `bootstrap ≥ 0`.
-
-## Error Semantics
-
-- Shape errors
-  - TypeError / ValueError: mismatched array rank or dtype.
-- Config errors
-  - ValueError: ensemble_size vs seeds length; threshold bounds; gse_window > delta_t.
-- I/O errors
-  - OSError / IOError: export path write failures; missing config files.
-- Determinism guard
-  - Warning: missing seeds or non-unique seeds; notebooks must abort or log and continue per policy.
-
-## Backward Compatibility
-
-- Encoder abstraction
-  - The Python `EnsembleEncoder` interface remains stable if [pub struct SimpleSaeEncoder](nsi_core/src/ensemble.rs:1) is replaced by future SNN encoders; configs may introduce `encoder_type` variants while preserving method signatures.
-- HIF schema
-  - Keys, nodes, and edge fields remain stable; additional metadata fields (e.g., reliability, timestamps) may be additive.
-
-## Minimal Usage Sketch
-
-```python
-# Ensemble → Intersect
-from py_nsi import PyEnsemble, PyGse, PyHypergraphStore  # [#[pymodule] fn py_nsi](py_nsi/src/lib.rs:1)
-
-ens = PyEnsemble.from_config("configs/ensemble.yaml")           # wraps [pub struct Ensemble<E: Encoder>](nsi_core/src/ensemble.rs:1)
-outs = ens.encode_all(activations)                              # [PyEnsemble.encode_all](py_nsi/src/lib.rs:1)
-mask = ens.intersect(outs, threshold=0.5)                       # [PyEnsemble.intersect](py_nsi/src/lib.rs:1)
-
-# Spikes → GSE → Hypergraph
-gse = PyGse(window=0.1)                                         # [PyGse](py_nsi/src/lib.rs:1) → [impl Gse { pub fn new }](nsi_core/src/hypergraph.rs:1)
-store = PyHypergraphStore()                                     # [PyHypergraphStore](py_nsi/src/lib.rs:1)
-for spike in spikes:                                            # spikes from [pub fn activation_to_spike_time](nsi_core/src/encoding.rs:1)
-    for island in gse.ingest(spike):                            # [PyGse.ingest](py_nsi/src/lib.rs:1)
-        store.add_island(island)                                # [PyHypergraphStore.add_island](py_nsi/src/lib.rs:1)
-
-# STII → HIF
-res = store.compute_stii(key, deltas)                           # [impl HypergraphStore { pub fn compute_stii }](nsi_core/src/metrics.rs:1)
-store.export_hif("outputs/<stamp>/hif/hypergraph.json")         # [PyHypergraphStore.export_hif](py_nsi/src/lib.rs:1)
+```json
+{
+  "network-type": "hypergraph",
+  "nodes": [{"id": 123}, {"id": 456}],
+  "edges": [
+    {"id": 0, "key": [123, 456], "observation_count": 3, "stii_weight": 0.42}
+  ],
+  "incidences": [
+    {"edge": 0, "nodes": [123, 456]}
+  ]
+}
 ```
 
-All APIs are intentionally minimal to keep the notebooks canonical and the Rust core stable. Future extensions (SNN-native encoders, reliability scores, motif mining) will be additive and will not break existing signatures.
+- Node ids are `u64` values returned by `PySpike.node_id()`.
+- `edges[*].key` is the canonical list of node ids for that hyperedge.
+- `incidences` mirror edge membership for downstream tooling.
+
+## Higher-Level Python Orchestration
+The demos use lightweight wrappers in `python/` to load YAML configs and wire the bindings:
+- `python/ensemble/intersection.py` builds `PySimpleSaeEncoder` and `PyEnsemble` from YAML, and expects `PY_NSI_INPUT_DIM` to be set before construction.
+- `python/encoders/spike.py` constructs `PySpike` instances and streams them into `PyGse`.
+- `python/hypergraph/pipeline.py` manages GSE ingestion and `PyHypergraphStore` exports.
+
+## Error Semantics
+- `PySimpleSaeEncoder` raises `ValueError` if `in_dim`/`out_dim` are zero or `top_k > out_dim`.
+- `PyHypergraphStore.compute_stii` raises `ValueError` if fewer than two distinct node ids are provided.
+- `export_hif` raises `IOError` on write failures.
+
+## Minimal Usage Sketch
+```python
+from py_nsi import PySimpleSaeEncoder, PyEnsemble, PySpike, PyGse, PyHypergraphStore
+
+enc = PySimpleSaeEncoder(256, 256, 16, 1337)
+ens = PyEnsemble([enc])
+outs = ens.encode_all([0.1, 0.2, -0.1, 0.3])
+mask = ens.intersect(outs, 0.5)
+
+spike = PySpike(0, 12, 0.05)
+spike2 = PySpike(0, 13, 0.07)
+gse = PyGse(0.1)
+store = PyHypergraphStore()
+for island in gse.ingest(spike):
+    store.add_island(island)
+
+stii = store.compute_stii([spike.node_id(), spike2.node_id()], [(2, 1.0), (2, 0.0)])
+store.export_hif("outputs/spike_hypergraph/<run_tag>/hypergraph.hif.json")
+```

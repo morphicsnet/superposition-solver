@@ -6,7 +6,7 @@ This document formalizes the operational definitions, pipelines, and reporting u
 
 - Count threshold definition
   - For a feature f and labeled concepts C_k, define poly(f) = |{k : P(C_k | f_active) > ε}|.
-  - ε is set in configs (see [configs/ensemble.yaml](configs/ensemble.yaml) and [CONFIG_SPECS.md](CONFIG_SPECS.md)); typical ε ∈ [0.05, 0.2] depending on class granularity.
+  - ε is set in demo configs (see `configs/demo1_baseline.yaml` and `configs/demo2_ensemble.yaml`, plus [CONFIG_SPECS.md](CONFIG_SPECS.md)); typical ε ∈ [0.05, 0.2] depending on class granularity.
 - Monosemantic rate
   - Fraction of features with poly(f) = 1.
 - Entropy definition
@@ -40,25 +40,28 @@ This document formalizes the operational definitions, pipelines, and reporting u
 
 ## Serialization of results
 
-Per stamped run under [outputs/](outputs/)/<YYYYmmdd-HHMMSS>/:
+Per run directory under `outputs/<demo>/<run_tag>/`:
 
-- Demo 1
-  - metrics/sae_poly.json
-    - Fields: monosemantic_rate, poly_hist (bins, counts), entropy_stats (base, smoothing α) computed via [pub fn entropy](nsi_core/src/metrics.rs:1)
-  - plots/poly_hist_sae.png
-- Demo 2
-  - metrics/ensemble_intersection.json
-    - Fields: median_polysemanticity, monosemantic_rate, accuracy_delta
-  - plots/poly_hist_intersection.png
-  - metrics/compare.json (optional): cross-demo deltas (D2 vs D1)
-- Demo 3
-  - hif/hypergraph.json exported by [pub fn export_hif](nsi_core/src/hypergraph.rs:1)
-  - plots/island_size_cdf.png
-- Demo 4
-  - metrics/stii_edges.json
-    - Per-entry: {key, stii, ci_lower, ci_upper, samples}
-  - circuits/minimal_circuits.json (ACDC)
-  - plots/stii_rank_curves.png
+- Demo 1 (baseline)
+  - `metrics.json` (summary metrics)
+  - `poly_hist.png`
+  - `probs.npy`, `poly_counts.npy`, `entropy.npy`
+- Demo 2 (ensemble)
+  - `metrics_single.json`, `metrics_intersection.json`, `compare.json`
+  - `poly_hist_single.png`, `poly_hist_intersection.png`, `poly_hist_dual.png`
+  - `probs_single.npy`, `poly_counts_single.npy`, `entropy_single.npy`
+  - `probs_intersection.npy`, `poly_counts_intersection.npy`, `entropy_intersection.npy`
+- Demo 3 (spike + hypergraph)
+  - `metrics_hyperedges.json`, `poly_hist_hyperedges.png`
+  - `hypergraph.hif.json` exported by [pub fn export_hif](nsi_core/src/hypergraph.rs:1)
+  - `edge_keys.json`, `features_hyperedges.npy`
+- Demo 4 (causal)
+  - `stii_values.json`
+  - `acdc_minimal_circuit.json`
+  - `fairness_report.json`
+  - `hypergraph_stii.hif.json`
+
+All demos also write `config.yaml` in the run directory.
 
 Note
 - Entropy base b and smoothing α are serialized alongside metrics; all entropy calculations call [pub fn entropy](nsi_core/src/metrics.rs:1).
@@ -67,13 +70,13 @@ Note
 
 - Distributions
   - Histograms for poly(f) and H(f), with median and 25/75% quantiles.
-  - Monosemantic rate (poly = 1) reported as percentage with bootstrap CIs (see [configs/stii.yaml](configs/stii.yaml) stability settings).
+  - Monosemantic rate (poly = 1) reported as percentage with bootstrap CIs (see `configs/demo4_causal.yaml` STII settings).
 - Downstream performance coupling
   - Report correlation between monosemantic rate and downstream task accuracy (absolute change vs. baseline) to ensure no regressions.
 - Calibration
   - Expected Calibration Error (ECE) for task predictions; report delta ECE when switching from single-encoder to intersection features.
 - Reproducibility
-  - All plots and JSON metrics saved under outputs/<run_stamp>/metrics and outputs/<run_stamp>/plots with seeds and git hash in outputs/<run_stamp>/logs/ (see [REPRODUCIBILITY.md](REPRODUCIBILITY.md)).
+  - All plots and JSON metrics are written directly into `outputs/<demo>/<run_tag>/` alongside `config.yaml` (see [REPRODUCIBILITY.md](REPRODUCIBILITY.md)).
 
 ## Causal Verification Metrics
 
@@ -82,7 +85,7 @@ Note
   - Sign: positive indicates synergy (superadditivity), negative indicates interference/redundancy.
   - Software implementation
     - Placeholder aggregation exposed via [impl HypergraphStore { pub fn compute_stii }](nsi_core/src/metrics.rs:1) with deltas supplied from masked forward passes.
-    - Control complexity via [configs/stii.yaml](configs/stii.yaml): max_order_k ∈ {2,3}, subset_sampling.enabled, per_edge_samples.
+    - Control complexity via `configs/demo4_causal.yaml` `stii` block: `max_order_k`, `subset_sampling.enabled`, `subset_sampling.per_edge_samples`.
   - Reporting
     - Per-edge STII values with bootstrap intervals; rank curves and concentration plots (top-N edges capturing X% of mass).
 - ACDC (Automated Circuit Discovery)
@@ -97,7 +100,7 @@ Note
 
 - Definition
   - Let H be the exported hypergraph (HIF) from [pub fn export_hif](nsi_core/src/hypergraph.rs:1).
-  - Define high-STII set E⁺ = {e ∈ H : STII(e) ≥ s_min}, where s_min is a threshold from [configs/stii.yaml](configs/stii.yaml).
+  - Define high-STII set E⁺ = {e ∈ H : STII(e) ≥ s_min}, where s_min is a threshold from the `stii` block in `configs/demo4_causal.yaml`.
   - For a query–answer pair (q,a), compute the density of high-STII hyperpaths between q-context nodes and a-output nodes within a causal time window.
 - Metric
   - HRCS(q,a) = (∑_paths∈E⁺ w(path)) / Z, where w(path) decreases with length and recency; Z normalizes for graph size.
@@ -128,4 +131,4 @@ Note
 - STII computation
   - [impl HypergraphStore { pub fn compute_stii }](nsi_core/src/metrics.rs:1)
 
-All thresholds, seeds, and configuration values must be recorded in the run’s outputs/<run_stamp>/configs/ and logs, ensuring full reproducibility across environments.
+All thresholds, seeds, and configuration values must be recorded in the run’s `outputs/<demo>/<run_tag>/config.yaml`, ensuring full reproducibility across environments.

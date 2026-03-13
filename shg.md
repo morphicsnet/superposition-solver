@@ -1,3 +1,7 @@
+# SHG Blueprint (Reference)
+
+Note: This blueprint is conceptual. For implementation details, see ARCHITECTURE.md and API_SPEC.md.
+
 The Transition to Neuro-Symbolic
 Topology: A Blueprint for H-SNN/SHG
 Interpretability Architectures
