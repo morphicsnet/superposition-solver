@@ -1,0 +1,145 @@
+Relevant Work: Expanded Mechanistic Interpretability Repository Review and Proposal Pack
+Prepared: March 14, 2026
+Purpose. This update extends the attached March 8, 2026 review with two additional repositories, Geo-CLT-SAE and featurecircuit-protocol, and adds a proposal packet for every repository covered here. Each packet includes: research positioning, a project-specific proposal, an extended abstract, future work, hardening recommendations, enabled capabilities, and a journal-targeting guide with current official formatting links.
+Evidence base. The six originally summarized repositories are retained from the attached document. The two new additions are grounded in local repository materials, especially README.md, PROJECT.md, architecture docs, schema docs, release notes, tests, and visible service surfaces. Where public detail remains sparse, that limitation is stated directly.
+Comparative Summary
+Repository
+Primary technical focus
+Best use in a research program
+Maturity signal
+superposition-solver1
+End-to-end protocol for reducing superposition using ensemble encoders, spikes, causal hypergraphs, and HIF outputs
+Main scientific precursor for circuit-discovery proposals
+Research-complete framing
+superposition-solver
+Demo corridor connecting interpretability pipeline artifacts to auditable outputs and hardware-facing abstractions
+Translation layer from method to product/system narrative
+Moderate; demo-heavy
+InterpCore
+Rust systems substrate for hypergraph extraction and HIF export
+Low-level runtime and throughput argument
+Early but concrete
+hypercircuit
+SAE-first scaffold for higher-order candidate discovery, surrogate modeling, causal evaluation, and edits
+Closest precursor to higher-order mechanism discovery work
+Scaffold stage
+Sidecar
+Explanation-serving architecture separating inference from explanation artifacts
+Reproducibility, evaluation hygiene, and explanation lifecycle
+Architecturally mature
+Sidecar-Anthropic
+Provider-specific sidecar variant with sparse public detail
+Adaptation-layer signal only unless more materials surface
+Insufficient public detail
+Geo-CLT-SAE
+Rust-core/Python-facing framework for mechanism admission, benchmarked assurance, sidecar runtime, and decision receipts
+Mechanism assurance, benchmark conformance, and auditable admission criteria
+Strong architecture plus active gates/tests
+featurecircuit-protocol
+Canonical protocol repo for feature-space artifacts, deterministic IDs, lineage manifests, and releaseable circuit-analysis outputs
+Artifact standardization, interoperability, and reproducibility backbone
+Release-oriented consolidation repo
+New Additions for the Updated Document
+Geo-CLT-SAE
+Geo-CLT-SAE is the most complete mechanism-assurance repository in the set. Its core scientific object is not a feature or dyadic edge but a chart-consistent causal hyperedge event, and its admission object is a canonical hyperpath that must satisfy causal necessity, synergy, chart stability, and transport coherence. The repo combines a Rust evidence plane for schemas, kernels, and validation with a Python control plane for model adapters, orchestration, reports, and API/UI surfaces. It also has benchmark lanes, sidecar protocol contracts, decision receipt artifacts, and CI-enforced phase gates.
+Local evidence checked: README.md, PROJECT.md, docs/architecture/ontology.md, docs/architecture/benchmark-spec.md, docs/architecture/sidecar-protocol.md, schemas/, python/tests/, outputs/phase*_gate_report.json.
+featurecircuit-protocol
+featurecircuit-protocol is the strongest protocol-and-standards repository in the set. It consolidates prior demo and solver trees into a canonical artifact chain spanning activations, feature spaces, event streams, relations, structures, candidate sets, circuit snapshots, scores, HIF export, and protocol manifests. Its main contribution is not a novel discovery algorithm but a stable interoperability layer: deterministic IDs, schema-versioned artifacts, compatibility checks, release automation, validation tooling, and a migration path from earlier APIs.
+Local evidence checked: README.md, CHANGELOG.md, docs/protocol.md, docs/releases/v0.1.0.md, tests/, tools/schema_validate/, tools/artifact_diff/.
+Repository Proposal Packets
+1. superposition-solver1
+Research proposal. Develop a persistence-aware extension of the current superposition-reduction pipeline that evaluates whether ensemble intersections and temporal spike coincidence produce circuits that remain stable across checkpoints, prompts, and decomposition choices. The core experiment would compare monosemanticity and causal necessity before and after higher-order hypergraph construction, then rank discovered circuits by cross-run persistence rather than single-run salience.
+Extended abstract. This project studies whether higher-order temporal and topological structure can reduce apparent polysemanticity in transformer representations without degrading task behavior. Starting from sparse or ensemble feature decompositions, the system constructs event streams, detects temporally aligned co-activations, and lifts these into candidate hypergraph structures. The proposal adds a persistence layer that measures whether candidate mechanisms survive changes in seed, checkpoint, prompt family, and feature basis. Mechanisms would be accepted only if they remain causally necessary under interventions and remain structurally similar under repeated decompositions. The expected contribution is a more robust definition of mechanistic evidence: not merely that a circuit appears once, but that it reappears across perturbations in the analysis pipeline. This would give mechanistic interpretability a more defensible bridge between descriptive structure and reliable causal explanation.
+Possible future work. Add multimodal traces, compare persistence under SAE and non-SAE bases, and build benchmark suites for decomposition-robust circuit recovery.
+Hardening recommendations. Freeze benchmark manifests, publish negative controls, add run-level provenance hashes, and formalize failure modes where persistence and causal necessity disagree.
+New capabilities enabled. Persistent circuit ranking, cross-checkpoint mechanism tracking, and decomposition-robust causal comparison.
+Journal targeting. Primary target: TMLR for a method-heavy mechanistic-interpretability paper. Backup: JMLR if the evaluation suite and software release become broad enough to justify a longer archival treatment.
+Formatting guide. TMLR uses the OpenReview workflow and the TMLR style package; keep the submission in double-column conference style and prepare an artifact appendix. JMLR uses its own LaTeX style and strongly prefers complete, archival technical detail. Official links: TMLR home and submission guidance; JMLR author information.
+2. superposition-solver
+Research proposal. Reframe the demo corridor as an auditable systems paper on how interpretability pipelines can produce standardized, human-reviewable circuit artifacts that connect scientific analysis to operational inspection interfaces. The paper should foreground the artifact corridor, reproducibility outputs, and product-facing interpretability surface rather than only algorithmic novelty.
+Extended abstract. Interpretability methods often fail to transfer from notebook-scale analyses to operational settings because they do not emit stable, auditable artifacts. This project proposes a reproducibility corridor in which superposition reduction, spike-based structure discovery, causal verification, and reporting are treated as one versioned artifact pipeline rather than disconnected scripts. The core question is whether a compact but explicit corridor can preserve enough scientific fidelity to support downstream inspection, review, and human decision support. The repository already suggests one answer by pairing model-analysis stages with stamped metrics, plots, HIF exports, and reports. The proposed paper would formalize this corridor, describe its interfaces, and evaluate whether external analysts can compare runs, inspect circuit deltas, and retrieve causal evidence without needing access to internal exploratory code. The contribution is a bridge paper: not new theory alone, but a method-to-product packaging of mechanistic artifacts that raises reproducibility and auditability.
+Possible future work. Add user studies on analyst comprehension, deployment telemetry, and hardware-accelerated replay of causal corridors.
+Hardening recommendations. Add reproducible release bundles, immutable report manifests, signed output artifacts, and backward-compatible schema versioning.
+New capabilities enabled. Artifact handoff to dashboards, structured model-comparison reports, and operational review of discovered circuits.
+Journal targeting. Primary target: SoftwareX. Backup: Journal of Systems and Software for a broader systems-and-tooling framing.
+Formatting guide. SoftwareX expects a concise software article with strong emphasis on availability, technical architecture, and reusable impact. Journal of Systems and Software expects a fuller systems evaluation and clearer empirical claims about engineering value. Official links: SoftwareX Guide for Authors; Journal of Systems and Software Guide for Authors.
+3. InterpCore
+Research proposal. Position InterpCore as a systems paper on the runtime substrate required for higher-order interpretability, with emphasis on deterministic hypergraph kernels, traversal controls, profile-driven execution, and HIF export guarantees. The central claim should be that mechanistic interpretability needs dedicated systems design once circuit search moves beyond pairwise edges.
+Extended abstract. Higher-order mechanism discovery is computationally expensive because candidate structures grow combinatorially and causal validation can require repeated traversal under intervention. InterpCore addresses this as a systems problem by providing a Rust execution substrate for graph streaming, traversal acceleration, subgraph mining, memory fabric management, and structured hypergraph export. The proposal would benchmark how such a substrate changes the practical boundary of higher-order interpretability workloads compared with ad hoc research code. Rather than claiming that the engine solves mechanism discovery by itself, the paper should show that deterministic identities, profile-based runtime controls, bounded traversal, and stable export formats meaningfully reduce experimental fragility. The scientific contribution is therefore infrastructural: a case that rigorous interpretability research now depends on dedicated execution machinery once the objects of study are hyperedges, temporal events, and causal traversals rather than isolated scalar features.
+Possible future work. Integrate GPU kernels, add checkpoint-aware caching, and benchmark on real transformer traces rather than synthetic loads.
+Hardening recommendations. Expand adversarial tests on canonicalization, add memory-pressure benchmarks, and publish explicit complexity envelopes per subsystem.
+New capabilities enabled. Throughput-controlled causal search, deterministic hypergraph export, and profile-tuned circuit mining backends.
+Journal targeting. Primary target: SoftwareX. Backup: Journal of Systems and Software.
+Formatting guide. Keep the paper software-centric: architecture, APIs, benchmarks, limitations, and reuse path. For the backup route, expand the runtime evaluation and failure analysis sections. Official links: SoftwareX Guide for Authors; Journal of Systems and Software Guide for Authors.
+4. hypercircuit
+Research proposal. Turn hypercircuit into a benchmarked study of higher-order mechanism discovery under explicit screening gates, with candidate mining, surrogate modeling, causal evaluation, semantic labeling, and edit validation as separate measurable phases. The research question should be whether explicit multi-stage gating improves precision and stability over pairwise or saliency-based baselines.
+Extended abstract. Many circuit-discovery pipelines fail because candidate generation, scoring, causal testing, and semantic interpretation are conflated. Hypercircuit offers a modular alternative in which these phases remain separated and each emits explicit artifacts. This proposal would instantiate that design on a set of benchmark behaviors and compare hyperedge-based candidates against pairwise graph baselines, single-SAE baselines, and surrogate-only filters. The key novelty is not merely using hyperedges, but evaluating whether gated progression from co-activation evidence to surrogate support to causal necessity produces cleaner and more reproducible mechanisms. The extended empirical goal is to identify when higher-order candidates survive semantic labeling and intervention tests, and when they collapse as decomposition artifacts or dataset-specific heuristics. A successful result would make the case that higher-order mechanism discovery needs an explicit protocol of evidence accumulation rather than a single monolithic discovery score.
+Possible future work. Add multilingual behaviors, multimodal candidate families, and persistence scores across alternative feature dictionaries.
+Hardening recommendations. Replace stubs with benchmarked reference algorithms, add calibration diagnostics for surrogate reliability, and formalize negative candidate registries.
+New capabilities enabled. Stage-wise evidence accounting, explicit Gate 1/Gate 2 reporting, and safer separation between candidate discovery and causal admission.
+Journal targeting. Primary target: TMLR. Backup: JMLR if the benchmark suite, ablations, and software package become extensive enough.
+Formatting guide. For TMLR, optimize for a clean methods-and-evaluation paper with reproducibility artifacts. For JMLR, expand theory, benchmark detail, and software appendix depth. Official links: TMLR home and submission guidance; JMLR author information.
+5. Sidecar
+Research proposal. Develop Sidecar into a paper on explanation lifecycle architecture for mechanistic interpretability, with the central claim that explanation should be handled as a separate, trace-keyed artifact stream rather than as an inline byproduct of model inference. The evaluation should measure reproducibility, latency isolation, and explanation retrieval quality.
+Extended abstract. Mechanistic explanation systems often conflate model execution with explanation generation, which makes explanations harder to reproduce, compare, cache, and audit. Sidecar proposes a different architecture: inference proceeds along a standard serving path while a separate explainer service builds hypergraph explanations keyed by a stable trace identifier. This decoupling matters because it separates user-facing latency from explanation cost, preserves a clean artifact lifecycle, and allows explanation policies to evolve without mutating the primary inference path. The proposed paper would describe the gateway-explainer pattern, define the explanation endpoints and lifecycle states, and evaluate the system under load and under replay. The contribution is architectural rather than algorithmic. It would give mechanistic interpretability a defensible systems pattern for storing, retrieving, and comparing explanations across runs, users, models, and downstream inspection tools.
+Possible future work. Add cross-provider explainers, privacy tiers for artifact exposure, and replay benchmarks over large trace corpora.
+Hardening recommendations. Add stronger authz boundaries, artifact retention policy controls, replay integrity checks, and explicit backpressure/load-shedding tests.
+New capabilities enabled. Trace-keyed explanation retrieval, asynchronous explanation generation, and clean separation of inference SLAs from explanation workloads.
+Journal targeting. Primary target: Journal of Systems and Software. Backup: SoftwareX if the paper is kept shorter and tool-focused.
+Formatting guide. For JSS, include a stronger system model, failure analysis, and operational evaluation. For SoftwareX, emphasize package structure, interfaces, reuse, and availability. Official links: Journal of Systems and Software Guide for Authors; SoftwareX Guide for Authors.
+6. Sidecar-Anthropic
+Research proposal. Treat this only as a provider-adaptation study unless more technical material becomes available. The safest proposal is a comparative engineering paper on how explanation-sidecar contracts need to adapt to model-provider API constraints, streaming semantics, and artifact-access boundaries.
+Extended abstract. Provider-specific adaptation layers are increasingly important in explanation systems because model APIs differ in token streaming semantics, metadata exposure, traceability, and tool-calling behavior. A Sidecar-Anthropic paper could ask how much of an explanation-lifecycle architecture remains provider-agnostic and where provider-specific coupling becomes unavoidable. In its current public state, however, the repository does not expose enough technical material to support a strong method paper. The more defensible framing is an implementation note or software companion describing adaptation points, interface preservation, and deployment constraints for a sidecar architecture attached to Anthropic-style APIs. This is worth studying because interoperability failures often appear first at the provider boundary, especially for trace identifiers, streaming cadence, retry behavior, and explanation granularity. The paper should remain narrow unless substantially more documentation or code surface is made public.
+Possible future work. Surface public API docs, publish compatibility matrices, and compare multiple provider adapters under the same sidecar contract.
+Hardening recommendations. Publish interface contracts, document provider-specific failure modes, and add conformance tests against mocked provider responses.
+New capabilities enabled. Provider-specific explanation compatibility and comparative deployment of the same sidecar abstraction.
+Journal targeting. Primary target: SoftwareX or JOSS only if the implementation is released with enough technical depth. Do not target a method journal until the public evidence base is stronger.
+Formatting guide. Keep the manuscript narrow and software-focused. JOSS requires a very short paper with the software as the main contribution; SoftwareX permits a somewhat broader architecture-and-reuse discussion. Official links: JOSS submission guide; SoftwareX Guide for Authors.
+7. Geo-CLT-SAE
+Research proposal. Write Geo-CLT-SAE as a mechanism-assurance paper: a framework for admitting candidate mechanisms only when they clear benchmarked thresholds on causal efficacy, synergy, chart stability, transport coherence, and falsifier resistance. The main research claim should be that interpretability needs explicit admission criteria and auditable receipts, not only candidate discovery.
+Extended abstract. Mechanistic interpretability has focused heavily on proposing candidate circuits, but much less on deciding when a candidate should count as an admitted mechanism. Geo-CLT-SAE addresses this gap by combining a Rust evidence plane for deterministic schemas, kernels, canonicalization, sidecar runtime, and benchmark enforcement with a Python control plane for model integration, orchestration, reporting, and product surfaces. Its ontology is explicit: the primitive object is a chart-consistent causal hyperedge event, and the admitted object is a canonical hyperpath that must satisfy thresholds for intervention effect, synergy, chart stability, transport coherence, and baseline margin while avoiding named falsifiers. The proposed paper would argue that this admission framework turns mechanistic interpretability into a benchmarkable assurance discipline. Rather than treating every plausible circuit as evidence, the system emits decision receipts, benchmark results, and phase-gate reports that let researchers distinguish conformant, provisional, and rejected mechanisms. The contribution is a move from exploratory discovery toward auditable mechanism assurance.
+Possible future work. Add more benchmark lanes, multi-model conformance scoring, interactive mechanism explorer studies, and longitudinal drift alerts for admitted mechanisms.
+Hardening recommendations. Expand benchmark coverage beyond factual retrieval, publish schema stability policy, add adversarial fixture packs, and formalize calibration of threshold choices across model families.
+New capabilities enabled. Mechanism admission receipts, explicit falsifier-based rejection, benchmarked assurance lanes, sidecar-backed trace lifecycle, and UI/API surfaces for auditable review.
+Journal targeting. Primary target: TMLR if the paper emphasizes the admission framework and empirical evaluation. Backup: Journal of Open Source Software for the software release, paired with a separate methods paper later. A second backup for a broader archival treatment is JMLR once benchmark coverage expands.
+Formatting guide. For TMLR, package it as a method-and-evaluation contribution with artifact links and benchmark reproducibility. For JOSS, the paper must stay short and the repository quality must carry the contribution. For JMLR, expand formal definitions, benchmark contract details, and artifact schema appendix. Official links: TMLR home and submission guidance; JOSS submission guide; JMLR author information.
+8. featurecircuit-protocol
+Research proposal. Frame featurecircuit-protocol as the standards and interoperability paper for mechanistic circuit analysis. The claim is that progress in this area is being bottlenecked by unstable identities, incompatible artifacts, and weak lineage tracking, and that a canonical protocol layer can materially improve reproducibility and cross-tool comparison.
+Extended abstract. Mechanistic interpretability pipelines often fail to compose because each tool invents its own artifact types, identity rules, and export conventions. featurecircuit-protocol addresses that fragmentation by defining a canonical artifact chain from activations to feature spaces, event streams, relations, structures, candidates, circuit snapshots, scores, and HIF exports, all backed by versioned schemas, deterministic IDs, and run-level manifests. The repository also adds compatibility checks, migration tooling, validation CLI utilities, release preflight gates, and a transition path from earlier APIs. The proposed paper would argue that interoperability itself is a research enabler: once artifacts have stable identities and lineage, results can be diffed, compared, and replayed across runs and tools. The contribution is therefore protocol-level rather than algorithmic. It gives the field a way to distinguish scientific disagreement from serialization mismatch or provenance loss, and it creates a base layer on which more ambitious mechanism-discovery systems can interoperate.
+Possible future work. Add richer provenance envelopes, dataset cards for artifact bundles, multimodal schema variants, and formal conformance suites for external tools.
+Hardening recommendations. Publish semver policy for schemas, add compatibility tests across older artifact snapshots, sign release artifacts, and maintain a public conformance matrix for adopters.
+New capabilities enabled. Deterministic feature and structure identities, artifact diffing, lineage-aware manifests, compatibility checks, and canonical release bundles.
+Journal targeting. Primary target: SoftwareX. Backup: JOSS if the contribution is kept tightly software-focused. A stronger long-form systems backup is Journal of Systems and Software once external adopters exist.
+Formatting guide. For SoftwareX, stress software availability, architecture, interfaces, validation tooling, and reuse value. For JOSS, trim the article and ensure documentation, tests, license, and installation are publication-ready. For JSS, add adoption evidence and stronger engineering evaluation. Official links: SoftwareX Guide for Authors; JOSS submission guide; Journal of Systems and Software Guide for Authors.
+Cross-Cutting Recommendations
+	•	Separate method papers from software papers where possible. Several repos are strong enough for SoftwareX or JOSS even if the science paper is not yet mature.
+	•	Standardize artifact lineage, negative controls, and benchmark manifests across the whole repo family.
+	•	Publish at least one cross-repo conformance benchmark so protocol and assurance claims are externally checkable.
+	•	For the stronger method targets, foreground falsifiers, ablations, and decomposition sensitivity instead of only positive examples.
+	•	Use the protocol and sidecar repos as infrastructure citations that strengthen reproducibility claims in the method-centric papers.
+Journal Guide Snapshot
+Journal
+Best fit here
+Use when
+Official source
+TMLR
+Method-heavy ML papers
+The contribution is empirical or conceptual, not mainly a software release
+jmlr.org/tmlr
+JMLR
+Long archival ML papers
+You need more space for theory, benchmarks, and reproducibility detail
+jmlr.org/author-info.html
+SoftwareX
+Research software papers
+The software artifact itself is the main contribution
+SoftwareX guide
+Journal of Systems and Software
+Systems architecture and evaluation
+You have stronger engineering evaluation and operational evidence
+JSS guide
+JOSS
+Concise software publication
+The repository is mature, documented, tested, and openly released
+JOSS docs
+Current journal links checked on March 14, 2026 from official publisher or journal sites.
