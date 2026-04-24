@@ -1,0 +1,1 @@
+{"trace_id": "trace-1", "decision": "allow_with_review", "gates": {"trace_completeness": true}, "falsifiers": {"replay_determinism": false}, "artifact_inputs": [{"artifact_type": "mair_graph_ir", "artifact_id": "id-1"}], "summary": {"status": "ok"}}

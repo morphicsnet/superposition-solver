@@ -1,0 +1,251 @@
+{
+  "capture_backend": "mock",
+  "edges": [
+    {
+      "edge_class": "tract_update",
+      "source": "block-0:pre_d1",
+      "target": "block-0:post_d1",
+      "weight": 1.0
+    },
+    {
+      "edge_class": "tract_update",
+      "source": "block-0:post_d1",
+      "target": "block-0:post_d2",
+      "weight": 1.0
+    },
+    {
+      "edge_class": "tract_update",
+      "source": "block-0:post_d2",
+      "target": "block-0:post_d3",
+      "weight": 1.0
+    },
+    {
+      "edge_class": "bridge_flow",
+      "source": "block-0:post_d3",
+      "target": "block-0:post_attention",
+      "weight": 1.0
+    },
+    {
+      "edge_class": "residual_flow",
+      "source": "block-0:post_attention",
+      "target": "block-0:block_output",
+      "weight": 1.0
+    },
+    {
+      "edge_class": "tract_update",
+      "source": "block-1:pre_d1",
+      "target": "block-1:post_d1",
+      "weight": 1.0
+    },
+    {
+      "edge_class": "tract_update",
+      "source": "block-1:post_d1",
+      "target": "block-1:post_d2",
+      "weight": 1.0
+    },
+    {
+      "edge_class": "tract_update",
+      "source": "block-1:post_d2",
+      "target": "block-1:post_d3",
+      "weight": 1.0
+    },
+    {
+      "edge_class": "bridge_flow",
+      "source": "block-1:post_d3",
+      "target": "block-1:post_attention",
+      "weight": 1.0
+    },
+    {
+      "edge_class": "residual_flow",
+      "source": "block-1:post_attention",
+      "target": "block-1:block_output",
+      "weight": 1.0
+    },
+    {
+      "edge_class": "tract_update",
+      "source": "block-2:pre_d1",
+      "target": "block-2:post_d1",
+      "weight": 1.0
+    },
+    {
+      "edge_class": "tract_update",
+      "source": "block-2:post_d1",
+      "target": "block-2:post_d2",
+      "weight": 1.0
+    },
+    {
+      "edge_class": "tract_update",
+      "source": "block-2:post_d2",
+      "target": "block-2:post_d3",
+      "weight": 1.0
+    },
+    {
+      "edge_class": "bridge_flow",
+      "source": "block-2:post_d3",
+      "target": "block-2:post_attention",
+      "weight": 1.0
+    },
+    {
+      "edge_class": "residual_flow",
+      "source": "block-2:post_attention",
+      "target": "block-2:block_output",
+      "weight": 1.0
+    },
+    {
+      "edge_class": "tract_update",
+      "source": "block-3:pre_d1",
+      "target": "block-3:post_d1",
+      "weight": 1.0
+    },
+    {
+      "edge_class": "tract_update",
+      "source": "block-3:post_d1",
+      "target": "block-3:post_d2",
+      "weight": 1.0
+    },
+    {
+      "edge_class": "tract_update",
+      "source": "block-3:post_d2",
+      "target": "block-3:post_d3",
+      "weight": 1.0
+    },
+    {
+      "edge_class": "bridge_flow",
+      "source": "block-3:post_d3",
+      "target": "block-3:post_attention",
+      "weight": 1.0
+    },
+    {
+      "edge_class": "residual_flow",
+      "source": "block-3:post_attention",
+      "target": "block-3:block_output",
+      "weight": 1.0
+    }
+  ],
+  "model_family": "qwen3.5-hybrid",
+  "model_variant": "mock-2b",
+  "nodes": [
+    {
+      "block_id": "block-0",
+      "id": "block-0:pre_d1",
+      "kind": "pre_d1"
+    },
+    {
+      "block_id": "block-0",
+      "id": "block-0:post_d1",
+      "kind": "post_d1"
+    },
+    {
+      "block_id": "block-0",
+      "id": "block-0:post_d2",
+      "kind": "post_d2"
+    },
+    {
+      "block_id": "block-0",
+      "id": "block-0:post_d3",
+      "kind": "post_d3"
+    },
+    {
+      "block_id": "block-0",
+      "id": "block-0:post_attention",
+      "kind": "post_attention"
+    },
+    {
+      "block_id": "block-0",
+      "id": "block-0:block_output",
+      "kind": "block_output"
+    },
+    {
+      "block_id": "block-1",
+      "id": "block-1:pre_d1",
+      "kind": "pre_d1"
+    },
+    {
+      "block_id": "block-1",
+      "id": "block-1:post_d1",
+      "kind": "post_d1"
+    },
+    {
+      "block_id": "block-1",
+      "id": "block-1:post_d2",
+      "kind": "post_d2"
+    },
+    {
+      "block_id": "block-1",
+      "id": "block-1:post_d3",
+      "kind": "post_d3"
+    },
+    {
+      "block_id": "block-1",
+      "id": "block-1:post_attention",
+      "kind": "post_attention"
+    },
+    {
+      "block_id": "block-1",
+      "id": "block-1:block_output",
+      "kind": "block_output"
+    },
+    {
+      "block_id": "block-2",
+      "id": "block-2:pre_d1",
+      "kind": "pre_d1"
+    },
+    {
+      "block_id": "block-2",
+      "id": "block-2:post_d1",
+      "kind": "post_d1"
+    },
+    {
+      "block_id": "block-2",
+      "id": "block-2:post_d2",
+      "kind": "post_d2"
+    },
+    {
+      "block_id": "block-2",
+      "id": "block-2:post_d3",
+      "kind": "post_d3"
+    },
+    {
+      "block_id": "block-2",
+      "id": "block-2:post_attention",
+      "kind": "post_attention"
+    },
+    {
+      "block_id": "block-2",
+      "id": "block-2:block_output",
+      "kind": "block_output"
+    },
+    {
+      "block_id": "block-3",
+      "id": "block-3:pre_d1",
+      "kind": "pre_d1"
+    },
+    {
+      "block_id": "block-3",
+      "id": "block-3:post_d1",
+      "kind": "post_d1"
+    },
+    {
+      "block_id": "block-3",
+      "id": "block-3:post_d2",
+      "kind": "post_d2"
+    },
+    {
+      "block_id": "block-3",
+      "id": "block-3:post_d3",
+      "kind": "post_d3"
+    },
+    {
+      "block_id": "block-3",
+      "id": "block-3:post_attention",
+      "kind": "post_attention"
+    },
+    {
+      "block_id": "block-3",
+      "id": "block-3:block_output",
+      "kind": "block_output"
+    }
+  ],
+  "profile_id": null,
+  "trace_id": "trace-blt-1"
+}

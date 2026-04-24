@@ -1,0 +1,10 @@
+{
+  "backend": "qwen3.5-hybrid",
+  "bridge_realization": "attention",
+  "equivalence_witness": "trace-blt-2-5-4",
+  "fused_kernels": false,
+  "precision": "fp32",
+  "profile_id": null,
+  "recurrence_kernel": "chunked-deltanet",
+  "trace_id": "trace-blt-2"
+}

@@ -1,5 +1,6 @@
 from typing import List, Tuple
 import numpy as np
+from datasets import load_dataset
 
 
 def generate_bank_dataset(n_per_class: int, seed: int) -> Tuple[List[str], List[int]]:

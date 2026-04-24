@@ -1,0 +1,48 @@
+{
+  "groups": [
+    {
+      "bridge_dependence": 0.299239,
+      "centroid": [
+        0.0858,
+        -0.158635,
+        -0.024406,
+        -0.295088
+      ],
+      "group_id": "g0",
+      "reconstruction_divergence": 0.32519,
+      "size": 7
+    },
+    {
+      "bridge_dependence": 0.13522,
+      "centroid": [
+        -0.09203,
+        0.465801,
+        -0.048296,
+        0.056795
+      ],
+      "group_id": "g1",
+      "reconstruction_divergence": 0.253048,
+      "size": 7
+    },
+    {
+      "bridge_dependence": 0.301192,
+      "centroid": [
+        -0.293167,
+        -0.254204,
+        -0.545599,
+        0.182002
+      ],
+      "group_id": "g2",
+      "reconstruction_divergence": 0.326425,
+      "size": 6
+    }
+  ],
+  "model_family": "qwen3.5-hybrid",
+  "model_variant": "mock-2b",
+  "summary_metrics": {
+    "group_count": 3,
+    "mean_bridge_dependence": 0.245217,
+    "mean_reconstruction_divergence": 0.301554
+  },
+  "trace_id": "trace-blt-2"
+}

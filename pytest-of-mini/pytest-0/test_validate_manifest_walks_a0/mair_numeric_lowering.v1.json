@@ -1,0 +1,1 @@
+{"trace_id": "trace-1", "backend": "qwen3.5-hybrid", "recurrence_kernel": "chunked-deltanet", "bridge_realization": "attention", "precision": "fp32", "fused_kernels": false, "equivalence_witness": "abc123"}

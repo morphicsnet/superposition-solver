@@ -1,0 +1,9 @@
+{"delta": -0.07481, "group_id": "g0", "intervention": "scale:0.25", "metadata": {"reconstruction_divergence": 0.32519, "strength": 0.25}, "metric": "bridge_dependence", "trace_id": "trace-blt-2"}
+{"delta": -0.149619, "group_id": "g0", "intervention": "scale:0.5", "metadata": {"reconstruction_divergence": 0.32519, "strength": 0.5}, "metric": "bridge_dependence", "trace_id": "trace-blt-2"}
+{"delta": -0.224429, "group_id": "g0", "intervention": "scale:0.75", "metadata": {"reconstruction_divergence": 0.32519, "strength": 0.75}, "metric": "bridge_dependence", "trace_id": "trace-blt-2"}
+{"delta": -0.033805, "group_id": "g1", "intervention": "scale:0.25", "metadata": {"reconstruction_divergence": 0.253048, "strength": 0.25}, "metric": "bridge_dependence", "trace_id": "trace-blt-2"}
+{"delta": -0.06761, "group_id": "g1", "intervention": "scale:0.5", "metadata": {"reconstruction_divergence": 0.253048, "strength": 0.5}, "metric": "bridge_dependence", "trace_id": "trace-blt-2"}
+{"delta": -0.101415, "group_id": "g1", "intervention": "scale:0.75", "metadata": {"reconstruction_divergence": 0.253048, "strength": 0.75}, "metric": "bridge_dependence", "trace_id": "trace-blt-2"}
+{"delta": -0.075298, "group_id": "g2", "intervention": "scale:0.25", "metadata": {"reconstruction_divergence": 0.326425, "strength": 0.25}, "metric": "bridge_dependence", "trace_id": "trace-blt-2"}
+{"delta": -0.150596, "group_id": "g2", "intervention": "scale:0.5", "metadata": {"reconstruction_divergence": 0.326425, "strength": 0.5}, "metric": "bridge_dependence", "trace_id": "trace-blt-2"}
+{"delta": -0.225894, "group_id": "g2", "intervention": "scale:0.75", "metadata": {"reconstruction_divergence": 0.326425, "strength": 0.75}, "metric": "bridge_dependence", "trace_id": "trace-blt-2"}

@@ -1,0 +1,72 @@
+{
+  "artifacts": [
+    {
+      "artifact_id": "mair_semantic_trace-6149fc69c0d1c3af",
+      "artifact_type": "mair_semantic_trace",
+      "byte_size": 22355,
+      "content_hash": "307a5ef6ee4331b5be9df7007f27c0848c0c0f211e85a06589c5ca4cf62f5750",
+      "path": "mair_semantic_trace.v1.jsonl",
+      "schema_version": 1
+    },
+    {
+      "artifact_id": "mair_graph_ir-f7de9614f64f2772",
+      "artifact_type": "mair_graph_ir",
+      "byte_size": 5450,
+      "content_hash": "f7c692a08f6d819389225e2e6e688d5a1a49d98e98f158ab2557d3225ea730a0",
+      "path": "mair_graph_ir.v1.json",
+      "schema_version": 1
+    },
+    {
+      "artifact_id": "mair_numeric_lowering-825a9b88420b7498",
+      "artifact_type": "mair_numeric_lowering",
+      "byte_size": 257,
+      "content_hash": "6453dcf33c8716a95583bec31fcf225cce217209b039ae1bf8ec23fcaebe8ad3",
+      "path": "mair_numeric_lowering.v1.json",
+      "schema_version": 1
+    },
+    {
+      "artifact_id": "blt_codes-4bddbb27d44f90bd",
+      "artifact_type": "blt_codes",
+      "byte_size": 4178,
+      "content_hash": "81c5bc821d062f2202d418b44eee171cc38d068f24e897510f1ccf81a020b48c",
+      "path": "blt_codes.v1.parquet",
+      "schema_version": 1
+    },
+    {
+      "artifact_id": "tract_state_snapshot-77e740880d4808c9",
+      "artifact_type": "tract_state_snapshot",
+      "byte_size": 4065,
+      "content_hash": "a2c68ff3b08cec6380dcb9a9d9d6b7778b5ad72505289fa2a9969c5795a4bd39",
+      "path": "tract_state_snapshot.v1.parquet",
+      "schema_version": 1
+    },
+    {
+      "artifact_id": "grouped_clt_bundle-edbebb631a9de8f8",
+      "artifact_type": "grouped_clt_bundle",
+      "byte_size": 960,
+      "content_hash": "262faa3febde1d7336bc9f01832341f523b0d89710ca1a99a47c84cc59763651",
+      "path": "grouped_clt_bundle.v1.json",
+      "schema_version": 1
+    },
+    {
+      "artifact_id": "topology_summary-189720d5eba5458e",
+      "artifact_type": "topology_summary",
+      "byte_size": 363,
+      "content_hash": "b84780bf27bece7de0e5593288450bd1a14fa7a8feb824e6429f013f46e8417f",
+      "path": "topology_summary.v1.json",
+      "schema_version": 1
+    },
+    {
+      "artifact_id": "intervention_sweep-81c4ee402065e1bb",
+      "artifact_type": "intervention_sweep",
+      "byte_size": 1771,
+      "content_hash": "5875118fd282e33f788061915460cf09b6a5b093d851d85e3eef30f2573be956",
+      "path": "intervention_sweep.v1.jsonl",
+      "schema_version": 1
+    }
+  ],
+  "created_at": "2026-03-29T03:27:32.865782+00:00",
+  "producer": "blt:analysis:0.1.0",
+  "schema_version": 1,
+  "trace_id": "trace-blt-2"
+}

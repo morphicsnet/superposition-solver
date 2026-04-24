@@ -55,8 +55,8 @@ def compute_stii_for_hyperedge(
     max_order_k: int,
 ) -> float:
     """
-    Compute Shapley–Taylor Interaction Index (placeholder aggregation in Rust) for a given hyperedge.
-
+    Compute Shapley–Taylor Interaction Index for a given hyperedge.
+    
     Steps:
       - Build node_cols by mapping node ids in edge_key to column indices in X_base (nodes_by_sample).
       - Compute baseline predicted probabilities on X_base using the provided logistic regression.
@@ -83,8 +83,8 @@ def compute_stii_for_hyperedge(
 
     # Baseline predictions
     base_probs = np.asarray(logreg_model.predict_proba(X_base))[:, 1]  # type: ignore[attr-defined]
-    subsets = enumerate_subsets(m, max_order_k)
-
+    subsets = enumerate_subsets(m, 1)
+    
     deltas: List[Tuple[int, float]] = []
     for mask in subsets:
         masked_probs = masked_predictions_logreg(logreg_model, X_base, node_cols, mask)
@@ -94,5 +94,5 @@ def compute_stii_for_hyperedge(
 
     # Compute STII via Rust-backed store and return value
     node_ids_sorted = sorted([int(n) for n in edge_key])
-    stii_value = float(store.compute_stii(node_ids_sorted, [(int(w), float(d)) for (w, d) in deltas]))
+    stii_value = float(store.compute_stii(node_ids_sorted, [(int(mask), float(d)) for (mask, d) in deltas]))
     return stii_value

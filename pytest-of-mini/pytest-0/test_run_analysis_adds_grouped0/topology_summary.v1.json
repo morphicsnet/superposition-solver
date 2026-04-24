@@ -1,0 +1,15 @@
+{
+  "bridge_policy": "bridge-aware",
+  "intervention_axis": "code_group",
+  "scope": "trace",
+  "summary_metrics": {
+    "block_count": 4,
+    "bridge_discontinuity": 0.242418,
+    "component_count": 3,
+    "mean_degree": 6.666667,
+    "token_count": 5,
+    "topological_susceptibility": 0.300311
+  },
+  "topology_backend": "sketch",
+  "trace_id": "trace-blt-2"
+}

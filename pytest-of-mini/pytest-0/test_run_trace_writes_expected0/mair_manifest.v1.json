@@ -1,0 +1,56 @@
+{
+  "artifacts": [
+    {
+      "artifact_id": "mair_semantic_trace-68530f6b9a802e13",
+      "artifact_type": "mair_semantic_trace",
+      "byte_size": 17911,
+      "content_hash": "543faf391b914585d258d9e9e3568e1c84de1e6d7972662be977863ba04a8533",
+      "path": "mair_semantic_trace.v1.jsonl",
+      "schema_version": 1
+    },
+    {
+      "artifact_id": "mair_graph_ir-1eb286eb7eb6657f",
+      "artifact_type": "mair_graph_ir",
+      "byte_size": 5450,
+      "content_hash": "e20cf7611899f8acd20af56d60120b76a15ec0d67a58ff39e17d59ffbe2798d1",
+      "path": "mair_graph_ir.v1.json",
+      "schema_version": 1
+    },
+    {
+      "artifact_id": "mair_numeric_lowering-d030fb6fef92321f",
+      "artifact_type": "mair_numeric_lowering",
+      "byte_size": 257,
+      "content_hash": "de79304418779e62416f517794f98061a5123f3d136dd567c2c616bf2373ed36",
+      "path": "mair_numeric_lowering.v1.json",
+      "schema_version": 1
+    },
+    {
+      "artifact_id": "blt_codes-ab4fd9d2a82d3500",
+      "artifact_type": "blt_codes",
+      "byte_size": 3935,
+      "content_hash": "ffbffb94fa20f0f29fdaeab5646fecdc568f4cf47e988ae16929a12f141eba8d",
+      "path": "blt_codes.v1.parquet",
+      "schema_version": 1
+    },
+    {
+      "artifact_id": "tract_state_snapshot-eea8bb3206f5ce09",
+      "artifact_type": "tract_state_snapshot",
+      "byte_size": 3733,
+      "content_hash": "c28d44b5896a424d28f99a4697ee10418877ecb0a332513a9eed5ba89923a5f1",
+      "path": "tract_state_snapshot.v1.parquet",
+      "schema_version": 1
+    },
+    {
+      "artifact_id": "topology_summary-4c094c9e0a7960e8",
+      "artifact_type": "topology_summary",
+      "byte_size": 363,
+      "content_hash": "9f29fdc940bb8ba31c4f70c49873ac043b27478e0a5b9338315bad930033416e",
+      "path": "topology_summary.v1.json",
+      "schema_version": 1
+    }
+  ],
+  "created_at": "2026-03-29T03:27:09.010811+00:00",
+  "producer": "blt:trace:0.1.0",
+  "schema_version": 1,
+  "trace_id": "trace-blt-1"
+}

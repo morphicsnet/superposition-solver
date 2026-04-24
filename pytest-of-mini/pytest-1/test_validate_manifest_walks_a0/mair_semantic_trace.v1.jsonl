@@ -1,0 +1,1 @@
+{"op": "StateInit", "trace_id": "trace-1", "model_family": "qwen3.5-hybrid", "model_variant": "mock-2b", "block_id": "block-0", "token_span": [0, 0], "source_artifact_id": "src-1", "determinism_context": {"seed": "stable"}, "payload": {"state_norm": 1.0}}

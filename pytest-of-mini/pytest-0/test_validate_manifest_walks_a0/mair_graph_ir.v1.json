@@ -1,0 +1,1 @@
+{"trace_id": "trace-1", "model_family": "qwen3.5-hybrid", "model_variant": "mock-2b", "nodes": [{"id": "block-0:pre_d1", "kind": "pre_d1"}], "edges": [{"source": "block-0:pre_d1", "target": "block-0:block_output", "edge_class": "tract_update", "weight": 1.0}]}

@@ -1,0 +1,1 @@
+{"trace_id": "trace-1", "topology_backend": "sketch", "scope": "trace", "bridge_policy": "bridge-aware", "intervention_axis": "code_group", "summary_metrics": {"component_count": 1}}

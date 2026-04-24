@@ -1,0 +1,1 @@
+{"trace_id": "trace-1", "model_family": "qwen3.5-hybrid", "model_variant": "mock-2b", "groups": [{"group_id": "g0", "size": 2, "reconstruction_divergence": 0.11, "bridge_dependence": 0.3, "centroid": [0.1, 0.2]}], "summary_metrics": {"mean_reconstruction_divergence": 0.11}}
